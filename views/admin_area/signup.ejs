@@ -1,0 +1,79 @@
+<% include ../partials/head %>
+<body style="overflow-x:hidden;">
+<% include ../partials/nav %>
+<div class="container">
+    <div class="row">
+        <div class="col l10 offset-l1 m10 offset-m1 s10 offset-s1" style="margin-top: 60px;"><!--main holder-->
+            <form action="/register_admin/" method="post">
+
+                <div class="row">
+
+
+                    <div class="col l12 m12 s12 red darken-2 white-text" style="padding:10px 10px; background-color: #fff; color:white;<%if(error_code != 2){ %> display: none; <% } %>">
+                        <p class="center"><%if(error_code == 2 && typeof error_array.general_error != undefined){ %> <%=error_array.general_error %> <% } %></p>
+                    </div>
+
+                    <div class="col l6 offset-l3 m6 offset-m6 s12">
+                        <h3 class="center pink-text text-darken-4">Admin Registration</h3>
+                        <p class="center"><small>Please Enter Email below and click the submit Button</small></p>
+                    </div>
+
+                    <div class="col l6 offset-l3 m6 offset-m6 s12" style="margin-top: 10px;">
+
+                        <div class="input-field">
+                            <input type="hidden" name="_csrf" value="<%=csrfToken %>">
+                            <input placeholder=" " value="<%=full_name %>" onblur="<%=error_remover%>" name="full_name" id="email" type="text" class="validate zero_margin">
+                            <label for="email" class="indigo-text text-darken-4">Full Name</label>
+                            <div class="error_carrier" style="<%if(error_code != 1){ %> display: none; <% } %>"><%if(error_code == 1){ %> <%=error_array.full_name %> <% } %></div>
+                        </div>
+
+                    </div>
+
+                    <div class="col l6 offset-l3 m6 offset-m6 s12" style="margin-top: 10px;">
+
+                        <div class="input-field">
+                            <input placeholder=" " value="<%=email %>" onblur="<%=error_remover%>" name="email" id="email" type="text" class="validate zero_margin">
+                            <label for="email" class="indigo-text text-darken-4">Email Address</label>
+                            <div class="error_carrier" style="<%if(error_code != 1){ %> display: none; <% } %>"><%if(error_code == 1){ %> <%=error_array.email %> <% } %></div>
+                        </div>
+
+                    </div>
+
+                    <div class="col l6 offset-l3 m6 offset-m6 s12" style="margin-top: 10px;">
+
+                        <div class="input-field">
+                            <input placeholder=" " value="" onblur="<%=error_remover%>" name="password" id="password" type="password" class="validate zero_margin">
+                            <label for="email" class="indigo-text text-darken-4">Password</label>
+                            <div class="error_carrier" style="<%if(error_code != 1){ %> display: none; <% } %>"><%if(error_code == 1){ %> <%=error_array.password %> <% } %></div>
+                        </div>
+
+                    </div>
+
+                    <div class="col l6 offset-l3 m6 offset-m6 s12" style="margin-top: 10px;">
+
+                        <div class="input-field">
+                            <input onblur="<%=error_remover%>" name="con_password" id="con_password" type="password" placeholder=" " class="validate zero_margin">
+                            <label for="email" class="indigo-text text-darken-4 active">Confirm Password</label>
+                            <div class="error_carrier" style="<%if(error_code != 1){ %> display: none; <% } %>"><%if(error_code == 1){ %> <%=error_array.con_password %> <% } %></div>
+                        </div>
+
+                    </div>
+
+                    <div class="col l6 offset-l3 m6 offset-m6 s12" style="margin-top: 10px;">
+                        <button class="btn waves-effect waves-light btn-large indigo darken-4" style="width: 100%;" type="submit" name="email_checker"><strong style="font-weight: bold; font-size: 18px;">Sign up</strong>&emsp13;&emsp13;<i class="fa fa-arrow-circle-right"></i>
+                        </button>
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+</div>
+<% include ../partials/sidenav_1.ejs %>
+</body>
+<% include ../partials/footer %>
+</html>
+

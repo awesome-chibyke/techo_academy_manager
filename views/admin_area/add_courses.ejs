@@ -1,0 +1,108 @@
+<% include ../partials/head %>
+<body style="overflow-x:hidden;">
+<% include ../partials/nav %>
+<div class="container">
+    <div class="row">
+        <div class="col l10 offset-l1 m10 offset-m1 s10 offset-s1" style="margin-top: 60px;"><!--main holder-->
+            <form action="/add_new_courses/" method="post">
+
+                <div class="row">
+
+                    <div class="col l6 offset-l3 m6 offset-m6 s12">
+                        <h3 class="center pink-text text-darken-4">Add Course(s)</h3>
+                        <p class="center"><small>Fill in courses below and click the submit button to submit, All fields must not be filled.</small></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col l8 offset-l2 m8 offset-m2 s12 red darken-2 white-text" style="padding:10px 10px; background-color: #fff; color:white;<%if(error_code != 2){ %> display: none; <% } %>">
+                        <p class="center"><%if(error_code == 2 && typeof error_array.general_error != undefined){ %> <%=error_array.general_error %> <% } %></p>
+                    </div>
+
+                    <%if(themessage !== "" ){%>
+                    <div class="col l8 offset-l2 m8 offset-m2 s12 green darken-2 white-text" style="padding:10px 10px; color:white;">
+                        <p class="center"><%=themessage %></p>
+                    </div>
+                    <% } %>
+                </div>
+
+                <div class="row">
+                    <div class="col l6 offset-l3 m6 offset-m3 s12" style="margin-top: 10px;">
+
+                        <div class="input-field">
+                            <input type="hidden" name="_csrf" value="<%=csrfToken %>">
+                            <input value="<%=values.course_name[0]%>" onblur="<%=error_remover%>" name="course_name[]" id="course_name_0" type="text" class="validate zero_margin">
+                            <label for="course_name_0" class="indigo-text text-darken-4">Name of Course</label>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col l6 offset-l3 m6 offset-m3 s12" style="margin-top: 10px;">
+
+                        <div class="input-field">
+                            <input value="<%=values.course_name[1]%>" onblur="<%=error_remover%>" name="course_name[]" id="course_name_1" type="text" class="validate zero_margin">
+                            <label for="course_name_1" class="indigo-text text-darken-4">Name of Course</label>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col l6 offset-l3 m6 offset-m3 s12" style="margin-top: 10px;">
+
+                        <div class="input-field">
+                            <input value="<%=values.course_name[2]%>" onblur="<%=error_remover%>" name="course_name[]" id="course_name_2" type="text" class="validate zero_margin">
+                            <label for="course_name_2" class="indigo-text text-darken-4">Name of Course</label>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col l6 offset-l3 m6 offset-m3 s12" style="margin-top: 10px;">
+
+                        <div class="input-field">
+                            <input value="<%=values.course_name[3]%>" onblur="<%=error_remover%>" name="course_name[]" id="course_name_3" type="text" class="validate zero_margin">
+                            <label for="course_name_3" class="indigo-text text-darken-4">Name of Course</label>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col l6 offset-l3 m6 offset-m3 s12" style="margin-top: 10px;">
+
+                        <div class="input-field">
+                            <input value="<%=values.course_name[4]%>" onblur="<%=error_remover%>" name="course_name[]" id="course_name_4" type="text" class="validate zero_margin">
+                            <label for="course_name_4" class="indigo-text text-darken-4">Name of Course</label>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col l6 offset-l3 m6 offset-m6 s12" style="margin-top: 10px;">
+                        <button class="btn waves-effect waves-light btn-large indigo darken-4" style="width: 100%;" type="submit" name="email_checker"><strong style="font-weight: bold; font-size: 18px;">Add Course</strong>&emsp13;&emsp13;<i class="fa fa-arrow-circle-right"></i>
+                        </button>
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+</div>
+<% include ../partials/sidenav %>
+</body>
+<% include ../partials/footer %>
+</html>
+

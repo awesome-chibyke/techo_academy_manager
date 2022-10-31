@@ -1,0 +1,84 @@
+<% include ../partials/head %>
+<body style="overflow-x:hidden;">
+<% include ../partials/nav %>
+
+<div class="container">
+    <div class="row">
+        <div class="col l10 offset-l1 m10 offset-m1 s10 offset-s1" style="margin-top: 60px;"><!--main holder-->
+            <form id="myAwesomeForm" action="/register_Project_2/" method="POST" encType="multipart/form-data">
+
+                <div class="col l12 m12 s12 red darken-2 white-text" style="padding:10px 10px; background-color: #fff; color:white;<%if(error_code != 2){ %> display: none; <% } %>">
+                    <p class="center"><%if(error_code == 2 && typeof general_error != undefined){ %> <%=general_error %> <% } %></p>
+                </div>
+
+                <div class="col l12 m12 s12">
+                    <h3 class="center pink-text text-darken-4">Project Registration</h3>
+                    <p class="center"><small>Fill up the Form to complete your registration</small></p>
+                </div>
+
+                <div class="col l12 m12 s12" style="margin-top: 10px;">
+
+                    <div class="input-field">
+                        <input value="<%=values.full_name %>" onblur="<%=error_remover%>" name="full_name" id="full_name" readonly type="text" class="validate zero_margin">
+                        <label for="academic_qual" class="indigo-text text-darken-4">Clients Full Name</label>
+                        <div class="error_carrier" style="<%if(error_code != 1){ %> display: none; <% } %>">
+                            <%if(error_code == 1){ %> <%=error_array.full_name %> <% } %>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col l12 m12 s12" style="margin-top: 10px;">
+
+                    <div class="input-field">
+                        <input type="hidden" name="_csrf" value="<%=csrfToken %>">
+                        <input value="<%=values.project_title %>" placeholder="Project Title" onblur="<%=error_remover%>" name="project_title" id="project_title" type="text" class="validate zero_margin">
+                        <label for="academic_qual" class="indigo-text text-darken-4">Project Title</label>
+                        <div class="error_carrier" style="<%if(error_code != 1){ %> display: none; <% } %>">
+                            <%if(error_code == 1){ %> <%=error_array.project_title %> <% } %>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col l12 m12 s12" style="margin-top: 10px;">
+                    <div class="input-field">
+                        <textarea id="textarea2" onblur="<%=error_remover%>" name="description" placeholder="Not More Then 150 words" class="materialize-textarea zero_margin margin_top" data-length="150"><% if(values.description != ""){ %> <%=values.description %> <% } %></textarea>
+                        <label for="textarea2" class="active indigo-text text-darken-4">More Decription about the Project</label>
+                        <div class="text_area_error_carrier" style="<%if(error_code != 1){ %> display: none; <% } %>" ><%if(error_code == 1){ %> <%=error_array.description %> <% } %></div>
+                    </div>
+
+                </div>
+
+                <div class="col l6 m6 s12" >
+                    <div class="input-field">
+                        <input id="amount_charged" class="file-path validate" name="amount_charged" type="text" value="<%=values.amount_charged %>" >
+                        <label class=" indigo-text text-darken-4">Amount Charged (NGN)</label>
+                        <div class="error_carrier" style="<%if(error_code != 1){ %> display: none; <% } %>"><%if(error_code == 1){ %> <%=error_array.amount_charged %> <% } %></div>
+                    </div>
+                </div>
+
+                <div class="col l6 m6 s12" >
+                    <div class="input-field">
+                        <input id="amount_paid" value="<%=values.amount_paid %>" class="file-path validate" name="amount_paid" type="text" >
+                        <label class=" indigo-text text-darken-4">Amount Paid (NGN)</label>
+                        <div class="error_carrier" style="<%if(error_code != 1){ %> display: none; <% } %>"><%if(error_code == 1){ %> <%=error_array.amount_paid %> <% } %>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col l12 m12 s12" style="margin-top: 30px;">
+                    <input type="hidden" id="random_number_holder" name="random_number" value="<%=random_number %>">
+                    <button class="btn waves-effect waves-light btn-large indigo darken-4" style="width: 100%;" type="submit" name="submit_form"><strong style="font-weight: bold; font-size: 18px;">Complete Registration</strong>&emsp13;&emsp13;<i class="fa fa-arrow-circle-right"></i>
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+<% include ../partials/sidenav %>
+</body>
+<% include ../partials/footer %>
+</html>
+

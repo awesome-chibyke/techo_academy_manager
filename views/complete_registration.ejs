@@ -1,0 +1,157 @@
+<% include partials/head %>
+<body style="overflow-x:hidden;">
+<% include partials/nav %>
+
+<div class="container">
+    <div class="row">
+        <div class="col l10 offset-l1 m10 offset-m1 s10 offset-s1" style="margin-top: 60px;"><!--main holder-->
+            <form id="myAwesomeForm" action="/register_2/" method="POST" encType="multipart/form-data">
+
+                <div class="col l12 m12 s12 red darken-2 white-text" style="padding:10px 10px; background-color: #fff; color:white;<%if(error_code != 2){ %> display: none; <% } %>">
+                    <p class="center"><%if(error_code == 2 && typeof general_error != undefined){ %> <%=general_error %> <% } %></p>
+                </div>
+
+                <div class="col l12 m12 s12">
+                    <h3 class="center pink-text text-darken-4">Registration Form</h3>
+                    <p class="center"><small>Fill up the Form to complete your registration</small></p>
+                </div>
+
+
+                <div class="col l4 m4 offset-m8 offset-l8 s12 offset-s0" style="margin-top: 10px;">
+                    <figure>
+                        <img id="dp_image" src="/images/passport/<% if(passport === null){ %><%='avatar.png'%> <% }else{ %><%=passport %><% } %>" alt="Trulli" style="width:100%">
+
+                    </figure>
+                </div>
+
+                <div class="col l4 m4 s12" style="margin-top: 10px;">
+
+                    <div class="input-field">
+                        <input type="hidden" name="_csrf" value="<%=csrfToken %>">
+                        <input value="<%=values.academic_qual %>" placeholder="Academic Qualification" onblur="<%=error_remover%>" name="academic_qual" id="academic_qual" type="text" class="validate zero_margin">
+                        <label for="academic_qual" class="indigo-text text-darken-4">Academic Qualification</label>
+                        <div class="error_carrier" style="<%if(error_code != 1){ %> display: none; <% } %>"><%if(error_code == 1){ %> <%=error_array.academic_qual %> <% } %></div>
+                    </div>
+
+                </div>
+
+                <div class="col l4 m4 s12" style="margin-top: 10px;">
+                    <div class="input-field">
+                        <select class="zero_margin" onblur="<%=error_remover%>" name="comp_literate" id="comp_literate">
+                            <% if(values.comp_literate != ""){ %> <option selected value="<%=values.comp_literate %>"> <%=values.comp_literate %></option> <% } %>
+                            <option value="Are you computer Literate">Are you computer Literate?</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                        <label for="comp_literate" class="indigo-text text-darken-4">Are you computer Literate</label>
+                        <div class="error_carrier" style="<%if(error_code != 1){ %> display: none; <% } %>"><%if(error_code == 1){ %> <%=error_array.comp_literate %> <% } %></div>
+                    </div>
+                </div>
+
+                <div class="col l4 m4 s6" style="margin-top: 10px;">
+
+                    <div class="file-field input-field">
+
+                        <div class="btn">
+                            <span>Upload Pass</span>
+                            <input type="file" id="upload_image" name="passport">
+                        </div>
+
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate" name="image_data" type="text" placeholder="Upload Passport">
+                            <label class="hiddendiv indigo-text text-darken-4"></label>
+                            <div class="error_carrier" style="<%if(error_code != 1){ %> display: none; <% } %>"><%if(error_code == 1){ %> <%=error_array.image_data %> <% } %></div>
+                        </div>
+                        <!--<textarea id="text_image_holder" name="image_data" style="display: none;"></textarea>-->
+                    </div>
+                    <div>
+                        <button type="button" style="width: 100%;" class="btn snapper"><i class="fa fa-camera white-text"></i></button>
+                    </div>
+
+                </div>
+
+
+
+                <div class="col l12 m12 s12" style="margin-top: 10px;">
+                    <div class="input-field">
+                        <textarea id="textarea2" onblur="<%=error_remover%>" name="description" placeholder="Not More Then 150 words" class="materialize-textarea zero_margin margin_top" data-length="150"><% if(values.description != ""){ %> <%=values.description %> <% } %></textarea>
+                        <label for="textarea2" class="active indigo-text text-darken-4">Please Provide us with further information that will help us serve you better</label>
+                        <div class="text_area_error_carrier" style="<%if(error_code != 1){ %> display: none; <% } %>" ><%if(error_code == 1){ %> <%=error_array.description %> <% } %></div>
+                        <input type="hidden" name="full_name" value="<%=full_name %>" >
+                    </div>
+
+                </div>
+
+                <div class="col l12 m12 s12 indigo-text text-darken-4" style="margin-top: 10px;">
+                    <span>Select Course(s)</span>
+                    <div class="error_carrier" style="<%if(error_code != 1){ %> display: none; <% } %>"><%if(error_code == 1){ %> <%=error_array.courses %> <% } %></div>
+                </div>
+
+                <% courses.forEach(function (courses_offered) { %>
+                <div class="col l3 m4 s12" >
+
+                    <label class="indigo-text text-darken-4">
+                        <input name="courses" value="<%=courses_offered.course_id%>" type="checkbox" />
+                        <span><%=courses_offered.course_name %></span>
+
+                    </label>
+
+                </div>
+                <% }) %>
+
+                <div class="col l12 m12 s12" >
+                    <small>For official use only</small>
+                </div>
+
+                <div class="col l6 m6 s12" >
+                    <div class="input-field">
+                        <input id="amount_charged" class="file-path validate" name="amount_charged" type="text" value="<%=values.amount_charged %>" >
+                        <label class=" indigo-text text-darken-4">Amount Charged (NGN)</label>
+                        <div class="error_carrier" style="<%if(error_code != 1){ %> display: none; <% } %>"><%if(error_code == 1){ %> <%=error_array.amount_charged %> <% } %></div>
+                    </div>
+                </div>
+
+                <div class="col l6 m6 s12" >
+                    <div class="input-field">
+                        <input id="amount_paid" value="<%=values.amount_paid %>" class="file-path validate" name="amount_paid" type="text" >
+                        <label class=" indigo-text text-darken-4">Amount Paid (NGN)</label>
+                        <div class="error_carrier" style="<%if(error_code != 1){ %> display: none; <% } %>"><%if(error_code == 1){ %> <%=error_array.amount_paid %> <% } %>
+                        </div>
+                    </div>
+                </div>
+
+                <!--<div class="col l4 m4 s12" >
+                    <div class="input-field">
+                        <input value="<%//=values.balance %>" class="file-path validate" id="balance" name="balance" type="text" >
+                        <label class=" indigo-text text-darken-4">Balance (NGN)</label>
+                        <div class="error_carrier" style="<%if(error_code != 1){ %> display: none; <% } %>"><%if(error_code == 1){ %> <%=error_array.balance %> <% } %></div>
+                    </div>
+                </div>-->
+
+                <div class="col l12 m12 s12 indigo-text text-darken-4" style="margin-top: 30px;">
+                    <div class="error_carrier" style="<%if(error_code != 1){ %> display: none; <% } %>"><%if(error_code == 1){ %> <%=error_array.checker %> <% } %></div>
+                </div>
+
+                <p class="col l12 m12 s12" style="margin-top: 10px;">
+
+                    <label>
+                        <input value="affirmed" name="checker" type="checkbox" />
+                        <span class="grey-text text-darken-2"> I <strong><%=full_name %></strong> hereby state that i will be of good character and satify my obligations during the course of my training. I also state that TechoCraft can take any action deemed fit upon default in any of my obligations during my training. I also state that the information i provided above is correct to the best of my knowledge</span>
+                    </label>
+                </p>
+
+                <div class="col l12 m12 s12" style="margin-top: 30px;">
+                    <input type="hidden" id="random_number_holder" name="random_number" value="<%=random_number %>">
+                    <button class="btn waves-effect waves-light btn-large indigo darken-4" style="width: 100%;" type="submit" name="submit_form"><strong style="font-weight: bold; font-size: 18px;">Complete Registration</strong>&emsp13;&emsp13;<i class="fa fa-arrow-circle-right"></i>
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+<% include partials/footer %>
+</html>
+

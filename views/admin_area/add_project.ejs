@@ -1,0 +1,166 @@
+<% include ../partials/head %>
+<body style="overflow-x:hidden;">
+<% include ../partials/nav %>
+<div class="container">
+    <div class="row">
+        <div class="col l10 offset-l1 m10 offset-m1 s10 offset-s1" style="margin-top: 60px;"><!--main holder-->
+            <form action="/register_project/" method="post">
+                <% if(form_no == 1) {%>
+                <div class="row">
+
+
+                    <div class="col l12 m12 s12 red darken-2 white-text" style="padding:10px 10px; background-color: #fff; color:white;<%if(error_code != 2){ %> display: none; <% } %>">
+                        <p class="center"><%if(error_code == 2 && typeof error_array.general_error != undefined){ %> <%=error_array.general_error %> <% } %></p>
+                    </div>
+
+                    <div class="col l12 m12 s12">
+                        <h3 class="center pink-text text-darken-4">Create New Project</h3>
+                        <p class="center"><small>Fill in the details of the client below</small></p>
+                    </div>
+
+                    <div class="col l4 m4 s12" style="margin-top: 10px;">
+
+                        <div class="input-field">
+                            <input value="<%=values.sur_name_value %>" placeholder="Surname" onblur="<%=error_remover%>" name="sur_name" id="sur_name" type="text" class="validate zero_margin">
+                            <label for="sur_name" class="indigo-text text-darken-4">Sur Name</label>
+                            <div class="error_carrier" style="<%if(error_code != 1){ %> display: none; <% } %>"><%if(error_code == 1){ %> <%=error_array.sur_name %> <% } %></div>
+                        </div>
+
+                    </div>
+
+                    <div class="col l4 m4 s12" style="margin-top: 10px;">
+                        <div class="input-field">
+                            <input value="<%=values.first_name_value %>" placeholder="First Name" onblur="<%=error_remover%>" name="first_name" id="first_name" type="text" class="validate zero_margin">
+                            <label for="first_name" class="indigo-text text-darken-4">First Name</label>
+                            <div class="error_carrier" style="<%if(error_code != 1){ %> display: none; <% } %>"><%if(error_code == 1){ %> <%=error_array.first_name %> <% } %></div>
+                        </div>
+                    </div>
+
+                    <div class="col l4 m4 s12" style="margin-top: 10px;">
+                        <div class="input-field">
+                            <input value="<%=values.middle_name_value %>" placeholder="Middle Name" onblur="<%=error_remover%>" name="middle_name" id="middle_name" type="text" class="validate zero_margin">
+                            <label for="middle_name" class="indigo-text text-darken-4">Middle Name</label>
+                            <div class="error_carrier" style="<%if(error_code != 1){ %> display: none; <% } %>"><%if(error_code == 1){ %> <%=error_array.middle_name %> <% } %></div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col l4 m4 s12" style="margin-top: 10px;">
+                        <div class="input-field">
+                            <input value="<%=values.email_address_value %>" placeholder="Email Address" onblur="<%=error_remover%>" name="email_address" id="email" type="email" class="validate zero_margin">
+                            <label for="email" class="indigo-text text-darken-4">Email Address</label>
+                            <div class="error_carrier" style="<%if(error_code != 1){ %> display: none; <% } %>"><%if(error_code == 1){ %> <%=error_array.email_address %> <% } %></div>
+                        </div>
+                    </div>
+
+                    <%//if(title == "index"){%>
+                    <div class="col l3 m3 s12" style="margin-top: 10px;">
+                        <div class="input-field">
+                            <input value="<%=values.phone_number_value %>" name="phone_number" class="validate zero_margin" onblur="<%=error_remover%>" type="tel" id="phone">
+                            <label for="phone" class="phone_num indigo-text text-darken-4">Phone Number</label>
+                        </div>
+                        <div class="error_carrier" style="<%if(error_code != 1){ %> display: none; <% } %>"><%if(error_code == 1){ %> <%=error_array.phone_number %> <% } %></div>
+                    </div>
+                    <% //} %>
+
+                    <div class="col l4 offset-l1 m4 offset-m1 s12" style="margin-top: 10px;">
+                        <div class="input-field">
+                            <select class="zero_margin" onblur="<%=error_remover%>" name="gender" id="gender">
+                                <% if(values.gender_value != ""){ %> <option selected value="<%=values.gender_value %>"> <%=values.gender_value %></option> <% } %>
+                                <option value="Choose Your Gender">Choose Your Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                            <label for="gender">Gender</label>
+                            <div class="error_carrier" style="<%if(error_code != 1){ %> display: none; <% } %>"><%if(error_code == 1){ %> <%=error_array.gender %> <% } %></div>
+                        </div>
+                    </div>
+
+                    <div class="col l12 m12 s12" style="margin-top: 10px;">
+                        <div class="input-field">
+                            <input type="hidden" name="_csrf" value="<%=csrfToken %>">
+                            <textarea id="textarea2" onblur="<%=error_remover%>" name="contact_address" placeholder="Enter your Addresss" class="materialize-textarea zero_margin" data-length="120"><% if(values.contact_address_value != ""){ %> <%=values.contact_address_value %> <% } %></textarea>
+                            <label for="textarea2" class="active">Contact Address</label>
+                            <div class="text_area_error_carrier" style="<%if(error_code != 1){ %> display: none; <% } %>" ><%if(error_code == 1){ %> <%=error_array.contact_address %> <% } %></div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col l4 m4 s12" style="margin-top: 10px;">
+                        <div class="input-field">
+                            <select name="selected_state" onchange="<%=getSelectedState%>" id="selected_state">
+                                <% if(values.selected_state_value != ""){ %> <option selected value="<%=values.selected_state_value %>"> <%=values.selected_state_value %></option> <% } %>
+                                <option value="Select Your State" >Select Your State</option>
+                                <% states.forEach(function (states_in_nigeria) { %>
+                                <option value="<%=states_in_nigeria %>"><%=states_in_nigeria %></option>
+                                <% }) %>
+                            </select>
+                            <label for="selected_state">State of Origin</label>
+                            <div class="error_carrier" style="<%if(error_code != 1){ %> display: none; <% } %>"><%if(error_code == 1){ %> <%=error_array.selected_state %> <% } %></div>
+                        </div>
+                    </div>
+
+                    <div class="col l4 m4 s12 local_government_holder" style="margin-top: 10px; <%if(error_code != 1 && error_code != 2){ %> display: none; <% } %>">
+                        <div class="input-field">
+                            <select name="local_government" id="local_government">
+                                <% if(values.local_government_value != ""){ %> <option selected value="<%=values.local_government_value %>"> <%=values.local_government_value %></option> <% } %>
+
+                                <%if(error_code == 2){ %>
+                                <% values.local_government_list.forEach(function (local_government) { %>
+                                <option value="<%=local_government %>"><%=local_government %></option>
+                                <% }) %>
+                                <% } %>
+
+                                <%if(error_code == 2){ %>
+                                <% values.local_government_list.forEach(function (local_government) { %>
+                                <option value="<%=local_government %>"><%=local_government %></option>
+                                <% }) %>
+                                <% } %>
+
+                            </select>
+                            <label for="local_government">Local Government</label>
+                            <div class="error_carrier" style="<%if(error_code != 1){ %> display: none; <% } %>"><%if(error_code == 1){ %> <%=error_array.local_government %> <% } %></div>
+                        </div>
+                    </div>
+
+                    <div class="col l4 m4 s12 nationality_holder" style="margin-top: 10px;">
+                        <div class="input-field">
+                            <select name="nationality" id="nationality">
+                                <% if(values.nationality_value != ""){ %> <option selected value="<%=values.nationality_value %>"> <%=values.nationality_value %></option> <% } %>
+                                <option value="Select Your Nationality">Select Your Nationality</option>
+                                <% country.forEach(function (countries_of_the_world) { %>
+                                <option value="<%=countries_of_the_world %>"><%=countries_of_the_world %></option>
+                                <% }) %>
+                            </select>
+                            <label for="nationality">Nationality</label>
+                            <div class="error_carrier" style="<%if(error_code != 1){ %> display: none; <% } %>"><%if(error_code == 1){ %> <%=error_array.nationality %> <% } %></div>
+                        </div>
+                    </div>
+
+                    <div class="col l12 m12 s12" style="margin-top: 10px;">
+                        <input type="hidden" name="random_number" value="<%=random_number %>">
+                        <button class="btn waves-effect waves-light btn-large indigo darken-4" style="width: 100%;" type="submit" name="submit_form"><strong style="font-weight: bold; font-size: 18px;">Next</strong>&emsp13;&emsp13;<i class="fa fa-arrow-circle-right"></i>
+                        </button>
+                    </div>
+
+                </div>
+                <% } %>
+
+            </form>
+
+        </div>
+
+    </div>
+</div>
+<% include ../partials/sidenav %>
+</body>
+<% include ../partials/footer %>
+</html>
+

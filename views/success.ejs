@@ -1,0 +1,111 @@
+<% include partials/head %>
+<body style="overflow-x:hidden;">
+<% include partials/nav %>
+
+<div class="container">
+    <div class="row">
+        <div class="col l10 offset-l1 m12 offset-0 s12" style="margin-top: 50px;"><!--main holder-->
+
+            <div class="row">
+
+                <div class="col l12 m12 s12">
+                    <h3 class="center pink-text text-darken-4">Successful Registration</h3>
+                    <p class="center" style="margin-top: 30px;">
+                        <%=success_message %>
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col l6 m6 s12">
+                    <p class="left" style="margin-top: 30px;">
+                        <b>Full Name: </b><span><%=user_details.sur_name+' '+user_details.first_name+' '+user_details.last_name %></span>
+                    </p>
+                </div>
+                <div class="col l6 m6 s12">
+                    <p class="left" style="margin-top: 30px;">
+                        <b>Email Adrress: </b><span><%=user_details.email %></span>
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col l6 m6 s12">
+                    <p class="left" style="margin-top: 30px;">
+                        <b>Phone Number: </b><span><%=user_details.phone %></span>
+                    </p>
+                </div>
+
+                <div class="col l6 m6 s12">
+                    <p class="left" style="margin-top: 30px;">
+                        <b>Registered Course: </b><span><%=course_details.course_name %></span>
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col l6 m6 s12">
+                    <p class="left" style="margin-top: 30px;">
+                        <b>Amount(NGN): </b><span class="amount_charged"><%=registered_course.amount %></span>
+                    </p>
+                </div>
+
+                <div class="col l6 m6 s12">
+                    <p class="left" style="margin-top: 30px;">
+                        <b>Amount Paid(NGN): </b><span class="amount_paid"><%=registered_course.amount_paid %></span>
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col l6 m6 s12">
+                    <p class="left" style="margin-top: 30px;">
+                        <b>Date of Registration: </b><span><%=registered_course.reg_date %></span>
+                    </p>
+                </div>
+
+
+                <%if(registered_course.balance == 0){%>
+                <div class="col l6 m6 s12">
+                    <p class="left" style="margin-top: 30px;">
+                        <b>Payment Status: </b><span class="green-text">Payment Completed <i class="material-icons">check</i></span>
+                    </p>
+                </div>
+                <% } %>
+
+                <%if(registered_course.balance > 0){%>
+                <div class="col l6 m6 s12">
+                    <p class="left" style="margin-top: 30px;">
+                        <b>Balance(NGN): </b><span class="theBalance"><%=registered_course.balance%></span>
+                    </p>
+                </div>
+                <% } %>
+
+
+            </div>
+
+            <div class="row">
+                <div class="col l12 m12 s12" style="margin-top: 30px;">
+                    <!--<input type="hidden" name="random_number" value="<%//=random_number %>">-->
+                    <a class="btn waves-effect waves-light btn-large indigo darken-4" style="width: 100%;" href="https://techocraft.com" name="submit_form"><strong style="font-weight: bold; font-size: 18px;">Home</strong>&emsp13;&emsp13;<i class="fa fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+
+            </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+<% include partials/footer %>
+</html>
+

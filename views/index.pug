@@ -1,0 +1,30 @@
+doctype html
+html
+    head
+        meta(charset='utf-8')
+        title Test
+        link(rel='stylesheet', type='text/css', href='/views/materialize/css/materialize.css')
+        link(rel='stylesheet', type='text/css', href='/css/css.css')
+        link(href='https://fonts.googleapis.com/css?family=Open+Sans:300', rel='stylesheet', type='text/css')
+    body
+        nav
+            div(class='nav-wrapper')
+                a(href='')
+                a(href='#' data-target='mobile-demo', class='sidenav-trigger')
+                    i(class='material-icons', text='menu')
+                ul(class='right hide-on-med-and-down')
+                    li
+                        a(text='Sass', href='sass.html')
+                    li
+                        a(href='badges.html', text='Components')
+
+        ul(class='sidenav', id='mobile-demo')
+            li
+                a(href='sass.html', text='Sass')
+            li
+                a(href='badges.html', text='Components')
+            li
+                a(href='collapsible.html', text='Javascript')
+            li
+                a(href='mobile.html', text='Mobile')
+

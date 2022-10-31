@@ -1,0 +1,55 @@
+<% include ../partials/head %>
+<body style="margin: 0px;">
+
+<% include ../partials/nav %>
+<div class="row">
+
+    <div class="col s10 offset-s1" style="margin-top: 50px; overflow-x: scroll; overflow-y:visible;">
+        <!--unique_id email phone sur_name first_name last_name gender address local_government state country passport highest_academic_qualification computer_literacy additional_information date_created affirmation-->
+        <table id="myTable" class="responsive-table">
+            <thead>
+            <tr>
+                <th>S/No</th>
+                <th>
+                    <p>
+                        <label>
+                            <input class="main_checker" type="checkbox" />
+                            <span></span>
+                        </label>
+                    </p>
+                </th>
+                <th>Course ID</th>
+                <th>Course Name</th>
+            </tr>
+            </thead>
+            <!--enrollment_id course_id student_id reg_date amount amount_paid balance course_duration status-->
+            <tbody>
+
+            <% courses.forEach(function (course_details) { counter++; %>
+            <tr>
+                <td><%=counter%></td>
+                <td>
+                    <p>
+                        <label>
+                            <input class="main_checker" value="<%=course_details.course_id %>" type="checkbox" />
+                            <span></span>
+                        </label>
+                    </p>
+                </td>
+                <!--payment_id course_id student_id amount_charged amount_paid balance date_of_payment payment_status-->
+                <td><%=course_details.course_id %></td>
+                <td><%=course_details.course_name %></td>
+            </tr>
+            <% }) %>
+
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+<% include ../partials/sidenav %>
+</body>
+
+<% include ../partials/footer %>
+</html>

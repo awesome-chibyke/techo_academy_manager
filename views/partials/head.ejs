@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <title>IT Program Registraton</title>
+    <link rel="stylesheet" type="text/css" href="/css/materialize.css">
+    <link rel="stylesheet" type="text/css" href="/css/css.css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="/css/intlTelInput.css">
+    <link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/croppie/croppie.css" />
+    <link rel="stylesheet" href="/toast/css/jquery.toast.css" />
+
+    <!--data table links-->
+    <link type="text/css" rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+</head>
+
+<div class="my_modal" id="my_modal">
+    <a href="javascript:;" style="position: absolute; right: 0px; top: 0px;" onclick="closeThisGuy(this)"><i class="fa fa-close fa-2x"></i></a>
+    <div style="width: 100%;">
+        <h4 class="col l12 m12 s12">Crop Image</h4>
+        <hr>
+    </div>
+    <div class="main_holder">
+        <div class="col l12 m12 s12">
+            <div id="image_demo" style="width:350px; margin-top:30px; margin-left: auto; margin-right: auto;"></div>
+            <img id="image_demo" src="" style="display: none;" >
+        </div>
+    </div>
+
+    <div class="button_holder">
+        <button class="btn waves-effect waves-light btn-large indigo darken-4 crop_image" style="width: 100%;" type="submit" name="submit_form"><strong style="font-weight: bold; font-size: 18px;">Save</strong>&emsp13;&emsp13;<i class="fa fa-arrow-circle-right"></i>
+        </button>
+    </div>
+
+</div>
+
+<div class="my_modal_2" id="my_modal_2">
+    <a href="javascript:;" style="position: absolute; right: 0px; top: 0px;" onclick="closeThisGuy(this)"><i class="fa fa-close fa-2x"></i></a>
+    <div style="width: 100%;">
+        <h4 class="col l12 m12 s12">Snap Passport</h4>
+        <hr>
+    </div>
+    <div class="main_holder">
+        <div class="col l12 m12 s12">
+            <div id="my_camera" style="width:350px; margin-top:30px; margin-left: auto; margin-right: auto;"></div>
+            <!--<img id="image_demo" src="" style="display: none;" >-->
+        </div>
+        <div class="col l12 m12 s12 center" style="margin-top: 20px;">
+            <div id="results">Your captured image will appear here...</div>
+        </div>
+    </div>
+
+    <div class="button_holder">
+        <form id="myAwesomeForm_2" method="post" action="/php-code-that-handles-fileupload.php">
+            <input type="text" id="filename" value="text.jpeg" name="filename" /> <!-- Filename -->
+            <input type="submit" id="submitButton" name="submitButton" /> <!-- Submit -->
+        </form>
+        <div class="row">
+            <div class="col l6 m6 s6">
+                <button onClick="take_snapshot()" class="btn waves-effect waves-light btn-large green darken-4" style="width: 100%;" type="submit" name="submit_form"><strong style="font-weight: bold; font-size: 18px;"><i class="fa fa-camera"></i></strong>&emsp13;&emsp13;
+                </button>
+            </div>
+            <div class="col l6 m6 s6">
+                <button onclick="submitShot()" class="btn waves-effect waves-light btn-large indigo darken-4" style="width: 100%;" type="submit" name="submit_form"><strong style="font-weight: bold; font-size: 18px;">Save</strong>&emsp13;&emsp13;<i class="fa fa-check"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="my_modal_3" id="my_modal_3">
+    <a href="javascript:;" style="position: absolute; right: 0px; top: 0px;" onclick="closeThisGuy(this)"><i class="fa fa-close fa-2x"></i></a>
+    <div style="width: 100%;">
+        <h4 class="col l12 m12 s12 main_title">Crop Image</h4>
+        <hr>
+    </div>
+    <div class="main_holder main_holder_3">
+        <div class="col l12 m12 s12">
+            <div id="image_demo" style="width:350px; margin-top:30px; margin-left: auto; margin-right: auto;"></div>
+            <img id="image_demo" src="" style="display: none;" >
+        </div>
+    </div>
+
+    <div class="button_holder">
+        <button id="button_main" class="btn waves-effect waves-light btn-large indigo darken-4" style="width: 100%;" type="submit" name="submit_form"><strong style="font-weight: bold; font-size: 18px;">Save</strong>&emsp13;&emsp13;<i class="fa fa-arrow-circle-right"></i>
+        </button>
+    </div>
+
+</div>

@@ -1,0 +1,494 @@
+<style>
+    th{
+        font-size: 14px !important;
+    }
+    td{
+        font-size: 12px !important;
+    }
+</style>
+<script type="text/javascript" src="/js/jquery_3_3_1.js" ></script>
+<script type="text/javascript" src="/js/materialize.js" ></script>
+<script type="text/javascript" src="/js/axios.js" ></script>
+<script type="text/javascript" src="/js/mine.js" ></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="/croppie/croppie.js"></script>
+<script src="/js/intlTelInput.js"></script>
+<script src="/toast/js/jquery.toast.js"></script>
+<script src="/toast/functions.js"></script>
+<script src="/js/webcam.min.js"></script>
+
+<!--data table-->
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script language="JavaScript">
+
+    /*function uploadAm(){*/
+
+    $(".uploadAm").click(function () {
+        $("#upload_image").click();
+    })
+    /*}*/
+
+    $(".snapper").click(function () {
+        Webcam.set({
+            width: 320,
+            height: 240,
+            image_format: 'jpeg',
+            jpeg_quality: 90
+        });
+        Webcam.attach('#my_camera' );
+        $('#my_modal_2').addClass("make_visible")
+    })
+</script>
+<script language="JavaScript">
+    function take_snapshot() {
+        // take snapshot and get image data
+        Webcam.snap( function(data_uri) {
+            // display results in page
+            document.getElementById('results').innerHTML =
+                '<h2>Here is your image:</h2>' +
+                '<img id="shot_holder" src="'+data_uri+'"/>';
+
+        } );
+    }
+
+    function submitShot(){
+
+        $('#my_modal_2').removeClass("make_visible");
+
+        // Get the form element withot jQuery
+        var form = document.getElementById("myAwesomeForm_2");
+
+        var ImageURL = $("#shot_holder").attr('src');
+
+        // Split the base64 string in data and contentType
+        var block = ImageURL.split(";");
+        // Get the content type of the image
+        var contentType = block[0].split(":")[1];// In this case "image/gif"
+
+        // get the real base64 content of the file
+        var realData = block[1].split(",")[1];// In this case "R0lGODlhPQBEAPeoAJosM...."
+
+        // Convert it to a blob to upload
+        var blob = b64toBlob(realData, contentType);
+
+        // Create a FormData and append the file with "image" as parameter name
+        var formDataToUpload = new FormData(form);
+        //console.log(formDataToUpload);
+        formDataToUpload.append("image", blob);
+        formDataToUpload.append("user_id", $("#random_number_holder").val().trim());
+
+        //const image_data = "image_data="+response; application/x-www-form-urlencoded
+
+        axios.post('/imageUpload', formDataToUpload, {headers: {'Content-Type': 'multipart/form-data'},withCredentials:true})
+            .then(function (res) {
+                //let theReturned = JSON.parse(res);
+                if(res.data.error_code == 0){
+
+                    returnFunctions.showSuccessToaster(res.data.success.message, 'success');
+
+                    $("#dp_image").attr({'src':'/images/passport/'+res.data.success.image_url});
+
+                }else if(res.data.error_code == 1){
+                    returnFunctions.showSuccessToaster(res.data.error, 'warning');
+                }
+            })
+
+    }
+
+    function confirm_course(enrollment_id) {
+
+        if(enrollment_id === ""){
+
+            returnFunctions.showSuccessToaster('Please refresh and try again', 'warning');
+            return;
+
+        }
+
+        //now create a form for the payment update
+        $('#my_modal_3').addClass("make_visible");
+        $(".main_title").text('Confirm');
+        $("#button_main").attr({"onclick":"completeConfirmCompleteion('"+enrollment_id+"')"}).find('strong').text('Comfirm Completion');
+
+        $(".main_holder_3").html("<div class='col-md-12 main_body' ><div class='input-field'><input type='hidden' class='_enrollment_id_holder' value='"+enrollment_id+"'></div></div>");
+
+    }
+
+    function makePayment(enrollment_id, balance){
+
+        if(enrollment_id === ""){
+
+            returnFunctions.showSuccessToaster('Please refresh and try again', 'warning');
+            return;
+            //
+        }
+
+        if(parseFloat(balance) == parseFloat(0)){
+            returnFunctions.showSuccessToaster('This user has completed payment for this course', 'warning');
+
+            return;
+        }
+
+        //now create a form for the payment update
+        $('#my_modal_3').addClass("make_visible");
+        $(".main_title").text('Update Payment');
+        $("#button_main").attr({"onclick":"submitPayment('"+enrollment_id+"')"}).find('strong').text('Update Payment');
+
+        $(".main_holder_3").html("<div class='col-md-12 main_body' ><div class='input-field'><input type='hidden' class='_enrollment_id_holder' value='"+enrollment_id+"'><input value='' id='amounter' type='text' class='validate zero_margin'><label for='amount_paid' class='indigo-text text-darken-4'>Amount</label></div></div>");
+
+    }
+    //
+
+
+    function submitPayment(enrollment_id){
+
+        if(enrollment_id == ""){
+            returnFunctions.showSuccessToaster('Please refresh page and try again', 'warning');
+            return;
+        }
+        var amounter = $("#amounter").val();
+
+        //move values to the back end
+        $.post('/update_payment', {amount_paid:amounter, enrollment_id:enrollment_id}, function (response, status) {
+
+
+            //var theReturned = JSON.parse(response);
+            //console.log(response.error_code);
+            if(response.error_code == 0){
+
+                returnFunctions.showSuccessToaster(response.success.message, 'success');
+                setTimeout(function () {
+                    location.reload();
+                }, 4000)
+
+            }else if(response.error_code == 1){
+
+                returnFunctions.showSuccessToaster(response.error, 'warning');
+
+            }
+            
+        })
+        
+    }
+
+    function completeConfirmCompleteion(enrollment_id){
+
+        //move values to the back end
+        $.post('/update_completion', {enrollment_id:enrollment_id}, function (response, status) {
+
+
+            //var theReturned = JSON.parse(response);
+            //console.log(response.error_code);
+            if(response.error_code == 0){
+
+                returnFunctions.showSuccessToaster(response.success.message, 'success');
+                setTimeout(function () {
+                    location.reload();
+                }, 4000)
+
+            }else if(response.error_code == 1){
+
+                returnFunctions.showSuccessToaster(response.error, 'warning');
+
+            }
+
+        })
+
+    }
+
+
+    function closeThisGuy(a){
+        $(a).closest('div').removeClass('make_visible');
+    }
+</script>
+<script>
+
+    function callFormat() {
+        //for the format of currency
+        //select the amount
+        var amount_carrier = $(".amount_carrier");
+        for(var i = 0; i < amount_carrier.length; i++){
+
+            $(amount_carrier[i]).text(formatMoney($(amount_carrier[i]).text()));
+
+        }
+    }
+
+    $(document).ready(function(){
+
+        setTimeout(function () {
+            callFormat();
+        }, 1000)
+
+        $('.sidenav').sidenav();
+        //floating button
+        $('.fixed-action-btn').floatingActionButton();
+
+        //dropdown trigger
+        $('.dropdown-trigger').dropdown();
+    })
+
+    $(document).ready( function () {
+        $('#myTable').DataTable();
+    } );
+
+
+
+    function cropImage(){
+
+        /*callPreviewImage().then(function (value) {
+
+            $(".my_modal").css({"visibility":"visible"});
+
+            var  image = document.getElementById('#image_holder');
+
+            var cropper = new Cropper(image, {
+                aspectRatio: 1 / 1,
+                crop(event) {
+                    console.log(event.detail.x);
+                    console.log(event.detail.y);
+                    console.log(event.detail.width);
+                    console.log(event.detail.height);
+                    console.log(event.detail.rotate);
+                    console.log(event.detail.scaleX);
+                    console.log(event.detail.scaleY);
+                },
+            });
+
+        })*/
+
+
+    }
+
+    //from_date
+    $(".to_date").change(function(){
+
+        var from_date = $(".from_date").val();
+        var to_date  = $(".to_date").val();
+
+        if(from_date === "" || to_date === ""){
+            returnFunctions.showSuccessToaster('please Make you have selected the two dates required!!!', 'warning');
+            return;
+        }
+
+        let form_values = "from_date="+from_date+"&to_date="+to_date
+
+        axios.post('/getIncomeDetailsBasedOnDateSelected', form_values, {headers: {'Content-Type': 'application/x-www-form-urlencoded'},withCredentials:true})
+            .then(function (res) {
+                //let theReturned = JSON.parse(res);
+                if(res.data.error_code == 0){
+
+                    returnFunctions.showSuccessToaster(res.data.success.message, 'success');
+
+                    $(".balance_carrier").text(res.data.success.balance);
+                    $(".sum_carrier").text(res.data.success.sum);
+
+                }else if(res.data.error_code == 1){
+                    returnFunctions.showSuccessToaster(res.data.error, 'warning');
+                }
+            })
+
+    })
+
+
+    $(document).ready(function () {
+
+        $('.modal').modal();
+
+        $('.datepicker').datepicker({format:'yyyy-mm-dd'});
+
+        $(".phone_num").addClass('active');
+
+        $('select').formSelect();
+
+        var input = document.querySelector("#phone");
+        window.intlTelInput(input, {
+            // allowDropdown: false,
+            // autoHideDialCode: false,
+            // autoPlaceholder: "off",
+            // dropdownContainer: document.body,
+            // excludeCountries: ["us"],
+            // formatOnDisplay: false,
+            // geoIpLookup: function(callback) {
+            //   $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+            //     var countryCode = (resp && resp.country) ? resp.country : "";
+            //     callback(countryCode);
+            //   });
+            // },
+            // hiddenInput: "full_number",
+            // initialCountry: "auto",
+            // localizedCountries: { 'de': 'Deutschland' },
+            // nationalMode: false,
+            // onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
+            // placeholderNumberType: "MOBILE",
+            // preferredCountries: ['cn', 'jp'],
+            // separateDialCode: true,
+            utilsScript: "js/utils.js",
+        });
+
+    })
+
+    function displayState(local_g, index){
+        var lg = "<option value='"+local_g+"'>"+local_g+"</option>";
+        return lg;
+    }
+
+    function getSelectedState(a){
+        var value = $(a).val().trim();
+
+        axios.get('/getLocalGovernment/'+value, {headers: {'Content-Type': 'application/x-www-form-urlencoded'},withCredentials:true}).then(function (response) {
+            var theReturn = response.data;
+
+            $("#local_government").html("<option value='Select Local Government'>Select Local Government</option>"+theReturn.map(displayState));
+
+            $(".local_government_holder").css({"display":"block"})
+
+            $("#local_government").formSelect()
+        })
+
+    }
+
+    function removeError(a){
+
+        if($(a).val().trim() != ""){
+            $(a).siblings("div").text("").css({"display":"none"})
+        }
+
+    }
+
+    $(document).ready(function(){
+
+        $image_crop = $('#image_demo').croppie({
+            enableExif: true,
+            viewport: {
+                width:200,
+                height:200,
+                type:'square' //circle
+            },
+            boundary:{
+                width:300,
+                height:300
+            }
+        });
+
+        $('#upload_image').on('change', function(){
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                $image_crop.croppie('bind', {
+                    url: event.target.result
+                }).then(function(){
+                    console.log('jQuery bind complete');
+                });
+            }
+            reader.readAsDataURL(this.files[0]);
+
+            $('#my_modal').addClass("make_visible")
+
+        });
+
+        $('.crop_image').click(function(event){
+            $image_crop.croppie('result', {
+                type: 'canvas',
+                size: 'viewport'
+            }).then(function(response){
+
+                $('#my_modal').removeClass("make_visible");
+                //$("#text_image_holders").val(response)
+
+                //proocess the image and call the function that will convert the image to blob
+                // Get the form element withot jQuery
+                var form = document.getElementById("myAwesomeForm");
+
+                var ImageURL = response;
+                // Split the base64 string in data and contentType
+                var block = ImageURL.split(";");
+                // Get the content type of the image
+                var contentType = block[0].split(":")[1];// In this case "image/gif"
+
+                // get the real base64 content of the file
+                var realData = block[1].split(",")[1];// In this case "R0lGODlhPQBEAPeoAJosM...."
+
+                // Convert it to a blob to upload
+                var blob = b64toBlob(realData, contentType);
+
+                // Create a FormData and append the file with "image" as parameter name
+                var formDataToUpload = new FormData(form);
+                formDataToUpload.append("image", blob);
+                formDataToUpload.append("user_id", $("#random_number_holder").val().trim());
+console.log(formDataToUpload)
+                //const image_data = "image_data="+response; application/x-www-form-urlencoded
+
+                axios.post('/imageUpload', formDataToUpload, {headers: {'Content-Type': 'multipart/form-data'},withCredentials:true})
+                    .then(function (res) {
+                        //let theReturned = JSON.parse(res);
+                        if(res.data.error_code == 0){
+
+                            returnFunctions.showSuccessToaster(res.data.success.message, 'success');
+
+                            $("#dp_image").attr({'src':'/images/passport/'+res.data.success.image_url});
+
+                        }else if(res.data.error_code == 1){
+                            returnFunctions.showSuccessToaster(res.data.error, 'warning');
+                        }
+                })
+            })
+        });
+
+    });
+
+    //function that creates a blob image from a base64 data
+    function b64toBlob(b64Data, contentType, sliceSize) {
+        contentType = contentType || '';
+        sliceSize = sliceSize || 512;
+
+        var byteCharacters = atob(b64Data);
+        var byteArrays = [];
+
+        for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+            var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+            var byteNumbers = new Array(slice.length);
+            for (var i = 0; i < slice.length; i++) {
+                byteNumbers[i] = slice.charCodeAt(i);
+            }
+
+            var byteArray = new Uint8Array(byteNumbers);
+
+            byteArrays.push(byteArray);
+        }
+
+        var blob = new Blob(byteArrays, {type: contentType});
+        return blob;
+    }
+
+    function formatMoney(number, decPlaces, decSep, thouSep) {
+        decPlaces = isNaN(decPlaces = Math.abs(decPlaces)) ? 2 : decPlaces,
+            decSep = typeof decSep === "undefined" ? "." : decSep;
+        thouSep = typeof thouSep === "undefined" ? "," : thouSep;
+        var sign = number < 0 ? "-" : "";
+        var i = String(parseInt(number = Math.abs(Number(number) || 0).toFixed(decPlaces)));
+        var j = (j = i.length) > 3 ? j % 3 : 0;
+
+        return sign +
+            (j ? i.substr(0, j) + thouSep : "") +
+            i.substr(j).replace(/(\decSep{3})(?=\decSep)/g, "$1" + thouSep) +
+            (decPlaces ? decSep + Math.abs(number - i).toFixed(decPlaces).slice(2) : "");
+    }
+
+    $(document).ready(function(){
+
+        //change the amount in the amount cahrged toi money format
+        $(".amount_charged").text(formatMoney($(".amount_charged").text()));
+
+        //change the amount in the amount paid to money format
+        $(".amount_paid").text(formatMoney($(".amount_paid").text()));
+
+        //change the amount in the balance to money format
+        if($(".theBalance")){
+            $(".theBalance").text(formatMoney($(".theBalance").text()));
+        }
+
+
+
+    });
+
+</script>

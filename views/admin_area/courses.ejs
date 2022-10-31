@@ -1,0 +1,87 @@
+<% include ../partials/head %>
+<body style="margin: 0px;">
+
+<% include ../partials/nav %>
+<div class="row">
+
+    <div class="col s8 offset-s2" style="margin-top: 50px;">
+        <h4 class="center">Income Activities</h4>
+    </div>
+
+    <div class="col s10 offset-s1" style="margin-top: 50px; overflow-x: scroll; overflow-y:visible;">
+        <!--unique_id email phone sur_name first_name last_name gender address local_government state country passport highest_academic_qualification computer_literacy additional_information date_created affirmation-->
+        <table id="myTable" class="responsive-table">
+            <thead>
+            <tr>
+                <th>S/No</th>
+                <th>
+                    <p>
+                        <label>
+                            <input class="main_checker" type="checkbox" />
+                            <span></span>
+                        </label>
+                    </p>
+                </th>
+                <th>Reference No</th>
+                <th>Course Name/Project Title</th>
+                <th>Students Name</th>
+                <th>Type of Service</th>
+                <th>Amount Charged (NGN)</th>
+                <th>Amount paid (NGN)</th>
+                <th>Balance (NGN)</th>
+                <th>Date of Registration</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+            </thead>
+            <!--enrollment_id course_id student_id reg_date amount amount_paid balance course_duration status-->
+            <tbody>
+
+            <% enrolled_courses.forEach(function (course_details) { counter++; %>
+            <tr>
+                <td><%=counter%></td>
+                <td>
+                    <p>
+                        <label>
+                            <input class="main_checker" value="<%=course_details.enrollment_id %>" type="checkbox" />
+                            <span></span>
+                        </label>
+                    </p>
+                </td>
+                <!--enrolled_courses:enrolled_courses, course_names:course_names, student_names:student_names-->
+                <td><%=course_details.enrollment_id %></td>
+                <td><%=course_names[counter_main] %></td>
+                <td><%=student_names[counter_main] %></td>
+                <td><%=course_details.type_of %></td>
+                <td class="amount_carrier"><%=course_details.amount %></td>
+                <td class="amount_carrier"><%=course_details.amount_paid %></td>
+                <td class="amount_carrier"><%=course_details.balance %></td>
+                <% var strArray=['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']; %>
+                <% var d = new Date(course_details.reg_date); %>
+                <td><%=d.getDate()+' '+strArray[d.getMonth()]+', '+d.getFullYear()%></td>
+                <td>
+                    <!-- Dropdown Trigger -->
+                    <a class='dropdown-trigger btn' href='#' data-target='dropdown_<%=counter_main%>'><i class="material-icons">menu</i></a>
+                    <ul id='dropdown_<%=counter_main%>' class='dropdown-content'>
+                        <%if(course_details.balance !== 0){  %>
+                        <li><a onclick="makePayment('<%=course_details.enrollment_id %>', '<%=course_details.balance %>')" href="javascript:;">Make Payment</a></li>
+                        <% } %>
+                        <li><a onclick="confirm_course('<%=course_details.enrollment_id %>')" href="javascript:;">Confirm Course/Project Completion</a></li>
+
+                    </ul>
+                </td>
+                <td><%if(course_details.status === 'in_progress'){%> In Progress <%}%><%if(course_details.status === 'completed'){%> Completed <%}%></td>
+            </tr>
+            <% counter_main++; }) %>
+
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+<% include ../partials/sidenav %>
+</body>
+
+<% include ../partials/footer %>
+</html>

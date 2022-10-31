@@ -1,0 +1,74 @@
+<% include ../partials/head %>
+<body style="margin: 0px;">
+
+<% include ../partials/nav %>
+<div class="row">
+
+    <div class="col s10 offset-s1" style="margin-top: 50px; overflow-x: scroll; overflow-y:visible;">
+        <!--unique_id email phone sur_name first_name last_name gender address local_government state country passport highest_academic_qualification computer_literacy additional_information date_created affirmation-->
+        <table id="myTable" class="responsive-table">
+            <thead>
+            <tr>
+                <th>S/No</th>
+                <th>
+                    <p>
+                        <label>
+                            <input class="main_checker" type="checkbox" />
+                            <span></span>
+                        </label>
+                    </p>
+                </th>
+                <th>Payment Reference No</th>
+                <th>Service Reference No</th>
+                <th>Type of Service</th>
+                <th>Purpose</th>
+                <th>Clients Full Name</th>
+                <th>Amount Charged (NGN)</th>
+                <th>Amount paid (NGN)</th>
+                <th>Balance (NGN)</th>
+                <th>Date of Payment</th>
+                <th>Status</th>
+
+            </tr>
+            </thead>
+            <!--enrollment_id course_id student_id reg_date amount amount_paid balance course_duration status-->
+            <tbody>
+
+            <% payments.forEach(function (payments_details) { counter++; %>
+            <tr>
+                <td><%=counter%></td>
+                <td>
+                    <p>
+                        <label>
+                            <input class="main_checker" value="<%=payments_details.payment_id %>" type="checkbox" />
+                            <span></span>
+                        </label>
+                    </p>
+                </td>
+                <!--payment_id course_id student_id amount_charged amount_paid balance date_of_payment payment_status-->
+                <td><%=payments_details.payment_id %></td>
+                <td><%=payments_details.enrollment_id %></td>
+                <td><%=enrollment_details[counter_main].type_of %></td>
+                <td><%=course_names[counter_main] %></td>
+                <td><%=student_names[counter_main] %></td>
+                <td class="amount_carrier"><%=payments_details.amount_charged %></td>
+                <td class="amount_carrier"><%=payments_details.amount_paid %></td>
+                <td class="amount_carrier"><%=payments_details.balance %></td>
+                <% var strArray=['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']; %>
+                <% var d = new Date(payments_details.date_of_payment); %>
+                <td><%=d.getDate()+' '+strArray[d.getMonth()]+', '+d.getFullYear()%></td>
+                <td><%=payments_details.payment_status %></td>
+            </tr>
+            <% counter_main++; }) %>
+
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+<% include ../partials/sidenav %>
+</body>
+
+<% include ../partials/footer %>
+</html>

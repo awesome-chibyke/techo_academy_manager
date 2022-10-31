@@ -1,0 +1,48 @@
+<% include ../partials/head %>
+<body style="overflow-x:hidden;">
+<% include ../partials/nav %>
+<div class="container">
+    <div class="row">
+        <div class="col l10 offset-l1 m10 offset-m1 s10 offset-s1" style="margin-top: 60px;"><!--main holder-->
+            <form action="/check_project_availabity/" method="post">
+
+                <div class="row">
+
+
+                    <div class="col l12 m12 s12 red darken-2 white-text" style="padding:10px 10px; background-color: #fff; color:white;<%if(error_code != 2){ %> display: none; <% } %>">
+                        <p class="center"><%if(error_code == 2 && typeof error_array.general_error != undefined){ %> <%=error_array.general_error %> <% } %></p>
+                    </div>
+
+                    <div class="col l6 offset-l3 m6 offset-m6 s12">
+                        <h3 class="center pink-text text-darken-4">Email Verification</h3>
+                        <p class="center"><small>Please Enter Email below and click the submit Button</small></p>
+                    </div>
+
+                    <div class="col l6 offset-l3 m6 offset-m6 s12" style="margin-top: 10px;">
+
+                        <div class="input-field">
+                            <input value="" onblur="<%=error_remover%>" name="email" id="email" type="text" class="validate zero_margin">
+                            <label for="email" class="indigo-text text-darken-4">Email Address</label>
+                            <div class="error_carrier" style="<%if(error_code != 1){ %> display: none; <% } %>"><%if(error_code == 1){ %> <%=error_array.email %> <% } %></div>
+                        </div>
+
+                    </div>
+
+                    <div class="col l6 offset-l3 m6 offset-m6 s12" style="margin-top: 10px;">
+                        <button class="btn waves-effect waves-light btn-large indigo darken-4" style="width: 100%;" type="submit" name="email_checker"><strong style="font-weight: bold; font-size: 18px;">Submit</strong>&emsp13;&emsp13;<i class="fa fa-arrow-circle-right"></i>
+                        </button>
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+</div>
+<% include ../partials/sidenav %>
+</body>
+<% include ../partials/footer %>
+</html>
+
